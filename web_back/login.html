@@ -43,16 +43,16 @@
                     <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- 有可能显示账号密码为空 -->
-                    <!-- 也有可能显示账号密码错误 -->
-                    <!-- 不能写死,可以用js来设置这个div的内容 -->
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确认</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -61,9 +61,9 @@
     <!-- 引入bootstrap的js文件 -->
     <script src="./js/bootstrap/js/bootstrap.min.js"></script>
     <script>
+        //需求: 用户登录
         //入口函数
         $(function () {
-            //需求: 用户登录
             // 1.给登录按钮设置一个点击事件.
             $('.input_sub').on('click', function (e) {
                 // 登录按钮是一个form表单中的submit, 所以要去掉他的默认跳转.
@@ -72,14 +72,15 @@
                 var username = $('.input_txt').val().trim();
                 var password = $('.input_pass').val().trim();
                 // 3.判断是否为空
-                if (username == "" || password == "") {
+                if (username == '' || password == '') {
                     // ​如果为空不要继续,如果不为空就继续
-                    //alert('兄弟,账号或者密码为空!');
+
                     //使用bootstrap的模态框
-                    $('.modal-body').text('兄弟,账号或者密码为空!');
+                    // alert('请输入用户名或者密码');
                     $('#myModal').modal({
-                        keyboard: true
-                    })
+                        keyboard: false,
+                    });
+                    $('.modal-body').text('请输入用户名或者密码');
                     return;
                 }
                 // 4.发送ajax请求,判断账号密码是否正确.
@@ -88,29 +89,33 @@
                     url: 'http://localhost:8080/admin/user/login',
                     data: {
                         username: username,
-                        password: password
+                        password: password,
+
                     },
-                    success: function (backData) {
-                        //如果登录成功
-                        if (backData.code == 200) {
-                            //跳转到首页
-                            window.location.href = 'index.html';
-                        } else {
-                            //alert('账号或者密码错误!');
-                            //使用bootstrap的模态框
-                            $('.modal-body').text('账号或者密码错误!');
+                    success: function (getDay) {
+                        console.log(getDay);
+                        if (getDay.code == 200) {
+                            // alert('登录成功');
                             $('#myModal').modal({
-                                keyboard: true
-                            })
+                                keyboard: false,
+                            });
+                            $('.modal-body').text('登录成功');
+                            //跳转到首页
+                            window.location.href = "index.html"
+                        } else {
+                            // alert('请输入正确的用户名或者密码');
+                            $('#myModal').modal({
+                                keyboard: false,
+                            });
+                            $('.modal-body').text('请输入正确的用户名或者密码');
                         }
                     }
-                });
-            });
 
+                })
 
+            })
+        })
 
-
-        });
     </script>
 </body>
 
