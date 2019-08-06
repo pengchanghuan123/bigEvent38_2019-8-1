@@ -14,6 +14,7 @@
 
 </head>
 
+
 <body>
     <div class="container-fluid">
         <div class="common_title">
@@ -44,9 +45,10 @@
                     <label for="inputPassword3" class="col-sm-2 control-label">用户图标：</label>
                     <div class="col-sm-10">
                         <img src="images/2.jpg" alt="" class="user_pic"> <br>
-                       
+                        
                         <!-- 一般工作中不用整个默认的上传文件的标签,因为太丑,隐藏 -->
                         <input type="file" style="display:block" name="userPic" id="exampleInputFile">
+
                     </div>
                 </div>
 
@@ -106,36 +108,37 @@
 
 
             // 需求:修改个人中心信息
+            //1.给修改按钮注册点击事件.
             $('.btn-edit').on('click', function (e) {
                 e.preventDefault();
+                //2.通过formData获取要修改的信息
                 var fd = new FormData($('form')[0]);
-
+                //3.发送ajax请求,完成修改
                 $.ajax({
-                     type:'post',
-                     url: 'http://localhost:8080/admin/user/edit',
-                     data:fd,
-                     contentType:false,
-                     processData:false,
-                     success:function(getDay){
-                          console.log(getDay);
-                          if (getDay.code==200) {
-                             alert('修改成功') ;
-                          parent.window.location.href='index.html';
-                          }
-                     }
+                    type: 'post',
+                    url: 'http://localhost:8080/admin/user/edit',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function (getDay) {
+                        console.log(getDay);
+                        if (getDay.code == 200) {
+                            alert('修改成功');
+
+                            //解决方案一: 刷新父窗口.
+                            parent.window.location.href = 'index.html';
+                        }
+                    }
 
                 })
 
             })
-            //1.给修改按钮注册点击事件.
 
-            //2.通过formData获取要修改的信息
 
-            //3.发送ajax请求,完成修改
 
-            //解决方案一: 刷新父窗口.
 
-            //解决方案二: 再重新发送ajax请求,获取修改后的用户信息,显示在首页对应的标签上.
+
+
 
 
 
